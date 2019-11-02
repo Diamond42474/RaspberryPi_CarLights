@@ -13,6 +13,7 @@ public class Panel_Menu extends JPanel {
 		
 		JButton btnMaster = new JButton("Master");
 		btnMaster.setBorderPainted(false);
+		btnMaster.setForeground(GS.colors.text);
 		btnMaster.setOpaque(true);
 		btnMaster.setBackground(GS.colors.button);
 		btnMaster.setBounds(6, 6, 135, 29);

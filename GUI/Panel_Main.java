@@ -4,9 +4,18 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
+import javax.swing.JList;
+import javax.swing.JProgressBar;
+import java.awt.Color;
 
 public class Panel_Main extends JPanel {
 	private GUI_Settings GS = new GUI_Settings();
+	public static JLabel CPU_Label;
 	/**
 	 * Create the panel.
 	 */
@@ -14,22 +23,57 @@ public class Panel_Main extends JPanel {
 		setBackground(GS.colors.backround);
 		setLayout(null);
 		
-		JSlider slider = new JSlider();
-		slider.setMaximum(100);
-		slider.setMinimum(0);
-		slider.addChangeListener(new ChangeListener() {
+		JSlider Master_Slider = new JSlider();
+		Master_Slider.setOpaque(true);
+		Master_Slider.setBackground(GS.colors.backround);
+		Master_Slider.setMaximum(100);
+		Master_Slider.setMinimum(0);
+		Master_Slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				Lights.setfront(slider.getValue());
+				Lights.setfront(Master_Slider.getValue());
+				Lights.setmiddle(Master_Slider.getValue());
+				Lights.setback(Master_Slider.getValue());
 			}
 		});
-		slider.setBounds(6, 43, 623, 29);
-		add(slider);
+		Master_Slider.setBounds(6, 43, 623, 50);
+		add(Master_Slider);
 		
-		JLabel lblFromtLights = new JLabel("Master");
+		JLabel lblFromtLights = new JLabel("Master Control Unit");
+		lblFromtLights.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFromtLights.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblFromtLights.setBounds(20, 6, 114, 25);
+		lblFromtLights.setBounds(6, 6, 623, 25);
 		lblFromtLights.setForeground(GS.colors.text);
 		add(lblFromtLights);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(GS.colors.menu_backround);
+		panel.setBounds(6, 95, 200, 200);
+		add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblCpuTemperature = new JLabel("CPU Temperature");
+		lblCpuTemperature.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblCpuTemperature.setForeground(GS.colors.text);
+		lblCpuTemperature.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblCpuTemperature, BorderLayout.NORTH);
+		
+		CPU_Label = new JLabel("0.0");
+		CPU_Label.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
+		CPU_Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(CPU_Label, BorderLayout.CENTER);
+		CPU_Label.setForeground(GS.colors.text);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(GS.colors.menu_backround);
+		panel_1.setBounds(216, 95, 200, 200);
+		add(panel_1);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(GS.colors.menu_backround);
+		panel_2.setBounds(428, 95, 200, 200);
+		add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
 
 	}
 }
