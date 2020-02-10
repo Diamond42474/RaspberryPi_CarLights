@@ -3,9 +3,12 @@ import java.io.IOException;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.GpioPinPwmOutput;
+import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.system.SystemInfo;
+import com.pi4j.util.CommandArgumentParser;
 
 public class Lights {
 	
@@ -29,7 +32,8 @@ public class Lights {
 		back_rate = Math.rate(percentage);
 	}
 	
-	public static void startup() {
+	public static void startup() throws InterruptedException {
+		
 		Thread front_LED = new Thread() {
 			public void run() {
 				while(true) {
@@ -38,6 +42,12 @@ public class Lights {
 					}
 					for(int ie = 0; ie < front_rate[0]-front_rate[1]; ie++) {
 						front.low();
+					}
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
@@ -51,6 +61,12 @@ public class Lights {
 					for(int ie = 0; ie < middle_rate[0]-middle_rate[1]; ie++) {
 						middle.low();
 					}
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
@@ -63,10 +79,16 @@ public class Lights {
 					for(int ie = 0; ie < back_rate[0]-back_rate[1]; ie++) {
 						back.low();
 					}
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
-		/*
+		
 		Thread CPU_Monitoring = new Thread() {
 			public void run(){
 				while(true) {
@@ -76,18 +98,6 @@ public class Lights {
 					e1.printStackTrace();
 				}
 					try {
-						if(SystemInfo.getCpuTemperature()>70) {
-								while(SystemInfo.getCpuTemperature()>60) {
-									fan.high();
-									Panel_Main.CPU_Label.setText(Float.toString(SystemInfo.getCpuTemperature()));
-									Thread.sleep(1000);
-								}
-						fan.low();
-						}
-					} catch (NumberFormatException | UnsupportedOperationException | IOException | InterruptedException e) {
-						e.printStackTrace();
-					}
-					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -95,10 +105,11 @@ public class Lights {
 				}
 			}
 		};
-		*/
-		front_LED.start();
-		middle_LED.start();
-		back_LED.start();
-		//CPU_Monitoring.start();
+		
+		//front_LED.start();
+		//middle_LED.start();
+		//back_LED.start();
+		CPU_Monitoring.start();
+		
 	}
 }

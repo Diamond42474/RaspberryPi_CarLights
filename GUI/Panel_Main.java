@@ -3,6 +3,7 @@ import javax.swing.JSlider;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
@@ -12,6 +13,8 @@ import javax.swing.JScrollBar;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Panel_Main extends JPanel {
 	private GUI_Settings GS = new GUI_Settings();
@@ -28,11 +31,27 @@ public class Panel_Main extends JPanel {
 		Master_Slider.setBackground(GS.colors.backround);
 		Master_Slider.setMaximum(100);
 		Master_Slider.setMinimum(0);
+		/*
+		Master_Slider.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				 JSlider sourceSlider=(JSlider)e.getSource();
+			       BasicSliderUI ui = (BasicSliderUI)sourceSlider.getUI();
+			       int value = ui.valueForXPosition( e.getX() );
+			       Master_Slider.setValue(value);
+			}
+		});
+		*/
 		Master_Slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
+				/*
 				Lights.setfront(Master_Slider.getValue());
 				Lights.setmiddle(Master_Slider.getValue());
 				Lights.setback(Master_Slider.getValue());
+				*/
+				pwmLights.setColor(Row.FRONT, Master_Slider.getValue(), Master_Slider.getValue(), Master_Slider.getValue());
+				pwmLights.setColor(Row.MIDDLE, Master_Slider.getValue(), Master_Slider.getValue(), Master_Slider.getValue());
+				pwmLights.setColor(Row.BACK, Master_Slider.getValue(), Master_Slider.getValue(), Master_Slider.getValue());
 			}
 		});
 		Master_Slider.setBounds(6, 43, 623, 50);
@@ -62,6 +81,7 @@ public class Panel_Main extends JPanel {
 		CPU_Label.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(CPU_Label, BorderLayout.CENTER);
 		CPU_Label.setForeground(GS.colors.text);
+		CPU.initiate();
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(GS.colors.menu_backround);
